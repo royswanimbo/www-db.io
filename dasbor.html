@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dasbor - SMP Negeri 1 Pirime</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #023e8a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .logo img {
+            width: 80px;
+            border-radius: 100px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 10px 0 30px;
+            font-weight: 600;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            margin: 8px 0;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        .menu a i {
+            margin-right: 10px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background-color: #0077b6;
+        }
+
+        .logout {
+            margin-top: auto;
+            background-color: #d00000 !important;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 30px;
+            width: calc(100% - 250px);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #023e8a;
+            font-weight: 600;
+        }
+
+        header h2 {
+            color: #0077b6;
+            font-weight: 400;
+            font-size: 1.2rem;
+        }
+
+        .welcome-box {
+            background-color: #caf0f8;
+            padding: 20px;
+            border-left: 5px solid #0077b6;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .stats-box {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            flex: 1 1 200px;
+            background-color: #fff;
+            padding: 20px;
+            border-left: 5px solid #0077b6;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo-img {
+            border-radius: 100px;
+        }
+
+        .stat-card h4 {
+            margin: 0;
+            color: #0077b6;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="img/logo.jpg" alt="Logo IPMP" />
+        </div>
+        <h2>Dasbor</h2>
+        <nav class="menu">
+            <a href="dasbor.html" class="active"><i class="bi bi-house-door-fill"></i> Beranda</a>
+            <a href="profile.html"><i class="bi bi-person-circle"></i> Profil</a>
+            <a href="program.html"><i class="bi bi-journal-text"></i> Program</a>
+            <a href="galeri.html"><i class="bi bi-images"></i> Galeri</a>
+            <a href="kontak.html"><i class="bi bi-telephone-fill"></i> Kontak</a>
+            <a href="daftar.html"><i class="bi bi-file-earmark-plus-fill"></i> Pendaftaran</a>
+            <a href="index.html" class="logout"><i class="bi bi-box-arrow-right"></i> Keluar</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header>
+            <h1>SELAMAT DATANG</h1>
+            <h2>di Dasbor SMP Negeri 1 Pirime</h2>
+        </header>
+
+        <div class="welcome-box">
+            <p>Halo dan selamat datang di halaman utama Dasbor <strong>SMP Negeri 1 Pirime</strong>. Di sini Anda dapat
+                melihat informasi terkini, mengakses data program kerja, profil sekolah, galeri, serta formulir
+                pendaftaran secara online.</p>
+            <p>Silakan pilih menu di sisi kiri untuk memulai navigasi.</p>
+        </div>
+
+        <div class="stats-box">
+            <div class="stat-card">
+                <h2> <a href="datasiswa.html">Data Siswa yang Telah Mendaftar</a></h2>
+                <table border="1" cellpadding="8">
+                    <thead>
+
+                    </thead>
+                    <tbody id="tabelSiswa"></tbody>
+                </table>
+
+            </div>
+            <div class="stat-card">
+                <h4>Guru & Staf</h4>
+                <p>35 tenaga pendidik</p>
+            </div>
+            <div class="stat-card">
+                <h4>Program Aktif</h4>
+                <p>5 kegiatan tahunan</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 SMP Negeri 1 Pirime. All rights reserved.</p>
+        </footer>
+    </main>
+
+
+    <script>
+        const dataSiswa = JSON.parse(localStorage.getItem('dataSiswa')) || [];
+        const tbody = document.getElementById('tabelSiswa');
+
+        dataSiswa.forEach((siswa, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+<td>${index + 1}</td>
+<td>${siswa.nama}</td>
+<td>${siswa.ttl}</td>
+<td>${siswa.jk}</td>
+`;
+            tbody.appendChild(row);
+        });
+    </script>
+</body>
+
+</html>

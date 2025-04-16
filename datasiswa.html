@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Data Siswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding: 40px;
+            background-color: #0080ff;
+        }
+
+        .container {
+            max-width: 1000px;
+            background-color: rgb(250, 252, 253);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2,
+        h4 {
+            color: #085cc9;
+            font-weight: bold;
+        }
+
+        .btn {
+            background-color: #0e4b9c;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background-color: #0077b6;
+        }
+
+        .table th {
+            background-color: #f6f8fa;
+            color: black;
+        }
+
+        .icon-btn {
+            font-size: 18px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .icon-btn:hover {
+            color: #0077b6;
+        }
+
+        .alert {
+            margin-top: 20px;
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #hasilCari,
+            #hasilCari * {
+                visibility: visible;
+
+            }
+
+            #hasilCari {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 40px;
+
+            }
+        }
+
+        /* Hapus style lama tombol yang tidak cocok */
+        button {
+            padding: 100px 200px;
+            font-weight: 600;
+            background-color: #023e8a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding-right: 200px;
+        }
+
+        button:hover {
+            background-color: #0077b6;
+        }
+
+        /* Buat input dan tombol jadi satu baris di layout */
+        .row .form-control {
+            height: 45px;
+            font-size: 16px;
+        }
+
+        .row .btn {
+            height: 45px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">SMP 1 PIRIME</h1>
+        <h2 class="text-center">Database Siswa/i</h2>
+        <h4>Data Siswa Yang Sudah Terdaftar</h4>
+
+        <div id="notif" class="alert d-none">Data berhasil disimpan!</div>
+
+        <div class="text-end mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex gap-4 align-items-center">
+                    <div><i class="bi bi-people-fill text-primary"></i> Total: <span id="totalSiswa">0</span></div>
+                    <div><i class="bi bi-gender-male text-info"></i> Laki-laki: <span id="totalLaki">0</span></div>
+                    <div><i class="bi bi-gender-female text-danger"></i> Perempuan: <span id="totalPerempuan">0</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <a href="pedaftaran.html" class="btn"><i class="bi bi-person-plus-fill"></i> Tambah Data</a>
+            <i class="bi bi-pencil-square icon-btn" title="Edit" onclick="editData(${index})"></i>
+
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama Lengkap</th>
+                        <th>TTL</th>
+                        <th>JK</th>
+                        <th>Ayah</th>
+                        <th>Ibu</th>
+                        <th>KK</th>
+                        <th>Akta</th>
+                        <th>Raport</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="dataSiswaTable"></tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <input type="text" id="kodeCari" class="form-control"
+                placeholder="Masukkan Disini Nama Lengkap (Kode Unik)" />
+        </div>
+        <div class="col-md-4">
+            <button onclick="cariDataKode()" class="btn w-100">
+                <i class="bi bi-search"></i> Cari
+            </button>
+        </div>
+    </div>
+
+
+    <div id="hasilCari" class="mt-3"></div>
+    </div>
+    <script>
+        function cariDataKode() {
+            const kode = document.getElementById('kodeCari').value.trim().toLowerCase();
+            const dataSiswa = JSON.parse(localStorage.getItem('dataSiswa')) || [];
+            const hasil = dataSiswa.find(siswa => siswa.nama.toLowerCase() === kode);
+            const hasilDiv = document.getElementById('hasilCari');
+
+            if (hasil) {
+                hasilDiv.innerHTML = `
+                    <div class="border p-4" style="border: 2px solid #000; max-width: 700px; margin: auto;">
+                        <div class="text-center mb-4">
+                              <div class="text-center"><img src="logo.jpg" alt="" width="100px"></div>
+                            <h4 style="text-transform: uppercase;">SMP 1 PIRIME</h4>
+                            <h4 style="text-transform: uppercase;">Data Siswa  Yang Sudah Terdaftar</h4>
+                            <hr>
+                        </div>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th width="40%">Nama Lengkap</th>
+                                <td>${hasil.nama}</td>
+                            </tr>
+                            <tr>
+                                <th>Tempat, Tanggal Lahir</th>
+                                <td>${hasil.ttl}</td>
+                            </tr>
+                            <tr>
+                                <th>Jenis Kelamin</th>
+                                <td>${hasil.jk}</td>
+                            </tr>
+                            <tr>
+                                <th>Nama Ayah</th>
+                                <td>${hasil.ayah}</td>
+                            </tr>
+                            <tr>
+                                <th>Nama Ibu</th>
+                                <td>${hasil.ibu}</td>
+                            </tr>
+                            <tr>
+                                <th>Kartu Keluarga (KK)</th>
+                                <td>${hasil.kk}</td>
+                            </tr>
+                            <tr>
+                                <th>Akta Kelahiran</th>
+                                <td>${hasil.akta}</td>
+                            </tr>
+                            <tr>
+                                <th>Raport Terakhir</th>
+                                <td>${hasil.raport}</td>
+                            </tr>
+                        </table>
+                        <div class="text-end mt-4">
+                            <button class="btn btn-success" onclick="window.print()">
+                                <i class="bi bi-printer"></i> Cetak
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                hasilDiv.innerHTML = '<div class="alert alert-danger">Data tidak ditemukan untuk nama tersebut.</div>';
+            }
+        }
+    </script>
+
+    <script>
+        window.onload = function () {
+            const dataEdit = JSON.parse(localStorage.getItem('dataEditSiswa'));
+            const indexEdit = localStorage.getItem('editIndex');
+
+            if (dataEdit && indexEdit !== null) {
+                document.getElementById('nama').value = dataEdit.nama;
+                document.getElementById('ttl').value = dataEdit.ttl;
+                document.getElementById('jk').value = dataEdit.jk;
+                document.getElementById('ayah').value = dataEdit.ayah;
+                document.getElementById('ibu').value = dataEdit.ibu;
+                document.getElementById('kk').value = dataEdit.kk;
+                document.getElementById('akta').value = dataEdit.akta;
+                document.getElementById('raport').value = dataEdit.raport;
+            }
+
+            document.getElementById('formPendaftaran').onsubmit = function (e) {
+                e.preventDefault();
+                const dataSiswa = JSON.parse(localStorage.getItem('dataSiswa')) || [];
+                const siswaBaru = {
+                    nama: document.getElementById('nama').value,
+                    ttl: document.getElementById('ttl').value,
+                    jk: document.getElementById('jk').value,
+                    ayah: document.getElementById('ayah').value,
+                    ibu: document.getElementById('ibu').value,
+                    kk: document.getElementById('kk').value,
+                    akta: document.getElementById('akta').value,
+                    raport: document.getElementById('raport').value
+                };
+
+                if (indexEdit !== null) {
+                    dataSiswa[indexEdit] = siswaBaru;
+                    localStorage.removeItem('editIndex');
+                    localStorage.removeItem('dataEditSiswa');
+                } else {
+                    dataSiswa.push(siswaBaru);
+                }
+
+                localStorage.setItem('dataSiswa', JSON.stringify(dataSiswa));
+                window.location.href = "dashboard.html";
+            };
+        }
+
+    </script>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
